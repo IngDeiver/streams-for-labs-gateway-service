@@ -6,6 +6,7 @@ import errorHandler from '../exceptions/errorHandler';
 import { stream } from '../utils';
 import passport from 'passport'
 import AzureStrategy from '../passport/azureStrategy'
+import JwtStrategy from '../passport/jwtStrategy'
 /**
  *
  *
@@ -88,7 +89,7 @@ class Server {
   private initializePassport () {
     this.app.use(passport.initialize());
     passport.use(AzureStrategy)
-    
+    passport.use(JwtStrategy)
   }
   /**
    *

@@ -39,6 +39,7 @@ exports.__esModule = true;
 var models_1 = require("../models");
 var exceptions_1 = require("../exceptions");
 var services_1 = require("../services");
+var jwt_1 = require("../utils/jwt");
 /**
  *
  * The user controller
@@ -90,13 +91,13 @@ var UserController = /** @class */ (function () {
      */
     UserController.create = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, username, email, oaid, user, userSaved, error_2;
+            var _a, username, password, user, userSaved, error_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        _a = req.body, username = _a.username, email = _a.email, oaid = _a.oaid;
-                        user = new models_1.User({ username: username, email: email, oaid: oaid });
+                        _a = req.body, username = _a.username, password = _a.password;
+                        user = new models_1.User({ username: username, password: password });
                         return [4 /*yield*/, services_1.UserService.create(user)];
                     case 1:
                         userSaved = _b.sent();
@@ -189,15 +190,15 @@ var UserController = /** @class */ (function () {
      */
     UserController.updateById = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, _a, username, email, oaid, userUpdated, error_5;
+            var id, _a, username, email, oaid, password, userUpdated, error_5;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
                         id = req.params.id;
-                        _a = req.body, username = _a.username, email = _a.email, oaid = _a.oaid;
+                        _a = req.body, username = _a.username, email = _a.email, oaid = _a.oaid, password = _a.password;
                         return [4 /*yield*/, services_1.UserService
-                                .updateById(id, { username: username, email: email, oaid: oaid })];
+                                .updateById(id, { username: username, email: email, oaid: oaid, password: password })];
                     case 1:
                         userUpdated = _b.sent();
                         if (!userUpdated)
@@ -208,6 +209,43 @@ var UserController = /** @class */ (function () {
                         error_5 = _b.sent();
                         return [2 /*return*/, next(new exceptions_1.HttpException(error_5.status || 500, error_5.message))];
                     case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.authAdmin = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, email, password, user, verifyPassword, token, resp, error_6;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 5, , 6]);
+                        _a = req.body, email = _a.email, password = _a.password;
+                        return [4 /*yield*/, models_1.User.findOne({ email: email })];
+                    case 1:
+                        user = _b.sent();
+                        verifyPassword = false;
+                        if (!user) return [3 /*break*/, 3];
+                        return [4 /*yield*/, user.verifyPassword(password)];
+                    case 2:
+                        verifyPassword = _b.sent();
+                        _b.label = 3;
+                    case 3:
+                        if (!user || !verifyPassword)
+                            throw new exceptions_1.HttpException(401, 'Invalid credentials');
+                        return [4 /*yield*/, jwt_1.sign(user)];
+                    case 4:
+                        token = _b.sent();
+                        resp = {
+                            type: "JWT",
+                            acces_token: token
+                        };
+                        res.json(resp);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        error_6 = _b.sent();
+                        return [2 /*return*/, next(new exceptions_1.HttpException(error_6.status || 500, error_6.message))];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

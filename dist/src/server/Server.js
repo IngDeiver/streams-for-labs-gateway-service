@@ -11,6 +11,7 @@ var errorHandler_1 = __importDefault(require("../exceptions/errorHandler"));
 var utils_1 = require("../utils");
 var passport_1 = __importDefault(require("passport"));
 var azureStrategy_1 = __importDefault(require("../passport/azureStrategy"));
+var jwtStrategy_1 = __importDefault(require("../passport/jwtStrategy"));
 /**
  *
  *
@@ -74,6 +75,7 @@ var Server = /** @class */ (function () {
     Server.prototype.initializePassport = function () {
         this.app.use(passport_1["default"].initialize());
         passport_1["default"].use(azureStrategy_1["default"]);
+        passport_1["default"].use(jwtStrategy_1["default"]);
     };
     /**
      *

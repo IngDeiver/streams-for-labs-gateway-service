@@ -5,6 +5,7 @@ import { IUser } from '../interfaces';
 import { User } from '../models';
 import { HttpException } from '../exceptions';
 import { UserService } from '../services';
+import { sign } from '../utils/jwt'
 
 /**
  *
@@ -44,8 +45,8 @@ class UserController {
    */
   public static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { username, email, oaid } = req.body;
-      const user:IUser = new User({ username, email, oaid });
+      const { username, password } = req.body;
+      const user:IUser = new User({ username, password });
       const userSaved: IUser = await UserService.create(user);
       res.json(userSaved);
     } catch (error) {
@@ -109,11 +110,32 @@ class UserController {
   public static async updateById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { username, email, oaid } = req.body;
+      const { username, email, oaid, password } = req.body;
       const userUpdated: IUser | null = await UserService
-        .updateById(id, { username, email, oaid});
+        .updateById(id, { username, email, oaid, password});
       if (!userUpdated) throw new HttpException(404, 'User not found');
       res.json(userUpdated);
+    } catch (error) {
+      return next(new HttpException(error.status || 500, error.message));
+    }
+  }
+
+  public static async authAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+      const user: IUser | null = await User.findOne({email})
+      let verifyPassword = false;
+      
+      if(user) verifyPassword = await user.verifyPassword(password);
+      
+      if (!user || !verifyPassword) throw new HttpException(401, 'Invalid credentials');
+
+      const token = await sign(user);
+      const resp = {
+        type:"JWT",
+        acces_token: token
+      }
+      res.json(resp);
     } catch (error) {
       return next(new HttpException(error.status || 500, error.message));
     }

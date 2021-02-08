@@ -47,6 +47,8 @@ var app_1 = __importDefault(require("../../../src/app"));
 var app;
 var request;
 var baseUri = '/api/user';
+// Warning this token will revoked (expire)
+var authorization_header = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiI0ZmZkMWVhNy0xYjFkLTRhZDYtOTZkNS05MTYzMTUxMjhlNTYiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vNjE4YmFiMGYtMjBhNC00ZGUzLWExMGMtZTIwY2VlOTZiYjM1L3YyLjAiLCJpYXQiOjE2MTI3OTY0MzcsIm5iZiI6MTYxMjc5NjQzNywiZXhwIjoxNjEyODAwMzM3LCJuYW1lIjoiRGVpdmVyIEd1ZXJyYSBDYXJyYXNjYWwiLCJub25jZSI6ImQ4Yjk1NTU2LTcyODUtNDhkZS04MzFjLTAxZTU5ZGI5ZjY3ZCIsIm9pZCI6Ijk2NTdlNGExLTRhMGEtNGVmMC1hZGVlLTVlMWUxYjVmNmMxYyIsInByZWZlcnJlZF91c2VybmFtZSI6ImRlaXZlci5ndWVycmEuMjAxN0B1cGIuZWR1LmNvIiwicmgiOiIwLkFBQUFENnVMWWFRZzQwMmhET0lNN3BhN05hY2VfVThkRzlaS2x0V1JZeFVTamxZMEFNby4iLCJzdWIiOiJ2Y0pObUNzMFRPbXU5cnNock4teEJZa2NLaDJka1VMN09vajZZOUxRdUZBIiwidGlkIjoiNjE4YmFiMGYtMjBhNC00ZGUzLWExMGMtZTIwY2VlOTZiYjM1IiwidXRpIjoiZG4zX1hldkRzRTZfSi1XdGw1NFBBQSIsInZlciI6IjIuMCJ9.b_Rrl5e-iKrQWjXsVCmgfaxhGlju8InvCMIrWHhnjZl2z_S3q0EK_EPMYqh5XmX3YNGE28axRZNlmylb7-1ufRJIj48xVOEinqFSx8qYRqVLvO6F4jVhg8x_CTw4REMQQh2bbrnj3AE_r3zUmqXDEEQXJdXLV_lXvzJgm1QgEO3Ji8bBc2ZqYsYzF70YL6M2bYNqeSSg7rMsyBXEeVSneR7fVd8_TAr-JKmVhIm1_oq3y6Wam_pYKKabGAz6TU74gHt2Ht7ZYJoLOxoWp2ZLTDz_ieyWE7dgoB6h6n6HyoHWl4P6tTJJ4z83uvdI9QsZT0qp3Y8iQbdKRmML5PWAfw';
 beforeAll(function () {
     app = app_1["default"].app;
     request = supertest_1["default"](app);
@@ -56,7 +58,8 @@ it('should get list users', function () { return __awaiter(void 0, void 0, void 
     var response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, request.get(baseUri)];
+            case 0: return [4 /*yield*/, request.get(baseUri)
+                    .set('Authorization', authorization_header)];
             case 1:
                 response = _a.sent();
                 expect(response.status).toBe(200);
@@ -65,30 +68,6 @@ it('should get list users', function () { return __awaiter(void 0, void 0, void 
         }
     });
 }); });
-// save
-// describe('should save user', () => {
-//   it('should authenticate', async () => {
-//     const username = 'user saved with unit tes';
-//     const email = `test@${Math.random().toString(5)}.com`;
-//     const oaid = Math.random().toString(32)
-//     const response = await request.post(baseUri)
-//       .send({ username, email, oaid })
-//       .set('Accept', 'application/json');
-//     expect(response.status).toBe(200);
-//     expect(response.body.username).toBeDefined();
-//     expect(response.body.username).toEqual(username);
-//     // remove a user saved
-//     const responseRemove = await request.delete(`${baseUri}/${response.body._id}`);
-//     expect(responseRemove.status).toBe(200);
-//     expect(responseRemove.body.username).toBeDefined();
-//   });
-//   it('should fail save without username with 400 status', async () => {
-//     const response = await request.post(baseUri)
-//       .set('Accept', 'application/json');
-//     expect(response.status).toBe(400);
-//     expect(response.body.username).toBeUndefined();
-//   });
-// });
 // get by id
 describe('should get user by id', function () {
     it('should response with 200 status', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -97,7 +76,8 @@ describe('should get user by id', function () {
             switch (_a.label) {
                 case 0:
                     id = '6020287d9fdf5e756921a923';
-                    return [4 /*yield*/, request.get(baseUri + "/" + id)];
+                    return [4 /*yield*/, request.get(baseUri + "/" + id)
+                            .set('Authorization', authorization_header)];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(200);
@@ -111,7 +91,8 @@ describe('should get user by id', function () {
             switch (_a.label) {
                 case 0:
                     id = '5fe0287346956c638f701222';
-                    return [4 /*yield*/, request.get(baseUri + "/" + id)];
+                    return [4 /*yield*/, request.get(baseUri + "/" + id)
+                            .set('Authorization', authorization_header)];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(404);
@@ -135,6 +116,7 @@ describe('should update a user', function () {
                         oaid: Math.random().toString(30)
                     };
                     return [4 /*yield*/, request.put(baseUri + "/" + id)
+                            .set('Authorization', authorization_header)
                             .send(user)];
                 case 1:
                     response = _a.sent();
@@ -151,6 +133,7 @@ describe('should update a user', function () {
                 case 0:
                     id = '5fe0287346956c638f701bd2';
                     return [4 /*yield*/, request.put(baseUri + "/" + id)
+                            .set('Authorization', authorization_header)
                             .send({ username: 'user update with test', email: "test@" + Math.random().toString(5) + ".com" })];
                 case 1:
                     response = _a.sent();
@@ -169,7 +152,8 @@ describe('should remove a user', function () {
             switch (_a.label) {
                 case 0:
                     id = '5fe0287346956c638f701bd2';
-                    return [4 /*yield*/, request["delete"](baseUri + "/" + id)];
+                    return [4 /*yield*/, request["delete"](baseUri + "/" + id)
+                            .set('Authorization', authorization_header)];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(404);

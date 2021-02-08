@@ -20,9 +20,11 @@ class UserDTO {
     @IsEmail()
     public email: string
 
-    @IsNotEmpty()
     @IsString()
     public oaid: string
+
+    @IsString()
+    public password: string
 
     /**
    * Creates an instance of UserDTO.
@@ -30,10 +32,11 @@ class UserDTO {
    * @param {string} email - the email user
    * @memberof UserDTO
    */
-    constructor(username: string, email: string, oaid: string) {
+    constructor(username: string, email: string, oaid: string, password: string) {
       this.username = username;
       this.email = email;
       this.oaid = oaid;
+      this.password = password;
     }
 }
 

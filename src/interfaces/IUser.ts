@@ -9,6 +9,8 @@ import { Document } from 'mongoose';
 interface   IUser extends Document{
     username: String,
     email: String,
-    oaid: String
+    oaid: String,
+    password: String,
+    verifyPassword: Function
 }
 export default  IUser;
