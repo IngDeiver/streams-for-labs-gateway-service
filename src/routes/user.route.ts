@@ -5,6 +5,8 @@ import { IRoute } from '../interfaces';
 import { UserControler } from '../controller';
 import { isDefinedParamMiddleware, validationMiddleware } from '../middlewares';
 import { UserDTO } from '../dtos';
+import passport from 'passport'
+
 
 /**
  *
@@ -36,12 +38,12 @@ class UserRouter implements IRoute {
     this.router.get('/', (req: Request, res: Response, next: NextFunction) => UserControler
       .list(req, res, next));
 
-    // Register user
+    // Authenticate user
     this.router.post(
-      '/',
-      validationMiddleware(UserDTO),
-      (req: Request, res: Response, next: NextFunction) => UserControler
-        .create(req, res, next),
+      '/auth',
+      passport.authenticate('oauth-bearer', { session: false }), (req: Request, res: Response) => {
+        res.json(req.user)
+      }
     );
 
     // Update user

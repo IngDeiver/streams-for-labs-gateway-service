@@ -22,37 +22,37 @@ it('should get list users', async () => {
 });
 
 // save
-describe('should save user', () => {
-  it('should save with 200 status', async () => {
-    const username = 'user saved with unit tes';
-    const email = `test@${Math.random().toString(5)}.com`;
-    const oaid = Math.random().toString(32)
+// describe('should save user', () => {
+//   it('should authenticate', async () => {
+//     const username = 'user saved with unit tes';
+//     const email = `test@${Math.random().toString(5)}.com`;
+//     const oaid = Math.random().toString(32)
 
-    const response = await request.post(baseUri)
-      .send({ username, email, oaid })
-      .set('Accept', 'application/json');
-    expect(response.status).toBe(200);
-    expect(response.body.username).toBeDefined();
-    expect(response.body.username).toEqual(username);
+//     const response = await request.post(baseUri)
+//       .send({ username, email, oaid })
+//       .set('Accept', 'application/json');
+//     expect(response.status).toBe(200);
+//     expect(response.body.username).toBeDefined();
+//     expect(response.body.username).toEqual(username);
 
-    // remove a user saved
-    const responseRemove = await request.delete(`${baseUri}/${response.body._id}`);
-    expect(responseRemove.status).toBe(200);
-    expect(responseRemove.body.username).toBeDefined();
-  });
+//     // remove a user saved
+//     const responseRemove = await request.delete(`${baseUri}/${response.body._id}`);
+//     expect(responseRemove.status).toBe(200);
+//     expect(responseRemove.body.username).toBeDefined();
+//   });
 
-  it('should fail save without username with 400 status', async () => {
-    const response = await request.post(baseUri)
-      .set('Accept', 'application/json');
-    expect(response.status).toBe(400);
-    expect(response.body.username).toBeUndefined();
-  });
-});
+//   it('should fail save without username with 400 status', async () => {
+//     const response = await request.post(baseUri)
+//       .set('Accept', 'application/json');
+//     expect(response.status).toBe(400);
+//     expect(response.body.username).toBeUndefined();
+//   });
+// });
 
 // get by id
 describe('should get user by id', () => {
   it('should response with 200 status', async () => {
-    const id = '601ffac2ea5fd239e873ea91'; // verify that this id exist in your database
+    const id = '6020287d9fdf5e756921a923'; // verify that this id exist in your database
     const response = await request.get(`${baseUri}/${id}`);
     expect(response.status).toBe(200);
   });
@@ -68,7 +68,7 @@ describe('should get user by id', () => {
 // update
 describe('should update a user', () => {
   it('should update with 200 status', async () => {
-    const id: string = '601ffac2ea5fd239e873ea91'; // verify that this id exist in your database
+    const id: string = '6020287d9fdf5e756921a923'; // verify that this id exist in your database
     const user = { 
       username: 'user update with test', 
       email: `test@${Math.random().toString(5)}.com`,

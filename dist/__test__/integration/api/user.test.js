@@ -66,47 +66,29 @@ it('should get list users', function () { return __awaiter(void 0, void 0, void 
     });
 }); });
 // save
-describe('should save user', function () {
-    it('should save with 200 status', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var username, email, oaid, response, responseRemove;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    username = 'user saved with unit tes';
-                    email = "test@" + Math.random().toString(5) + ".com";
-                    oaid = Math.random().toString(32);
-                    return [4 /*yield*/, request.post(baseUri)
-                            .send({ username: username, email: email, oaid: oaid })
-                            .set('Accept', 'application/json')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    expect(response.body.username).toBeDefined();
-                    expect(response.body.username).toEqual(username);
-                    return [4 /*yield*/, request["delete"](baseUri + "/" + response.body._id)];
-                case 2:
-                    responseRemove = _a.sent();
-                    expect(responseRemove.status).toBe(200);
-                    expect(responseRemove.body.username).toBeDefined();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should fail save without username with 400 status', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.post(baseUri)
-                        .set('Accept', 'application/json')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(400);
-                    expect(response.body.username).toBeUndefined();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-});
+// describe('should save user', () => {
+//   it('should authenticate', async () => {
+//     const username = 'user saved with unit tes';
+//     const email = `test@${Math.random().toString(5)}.com`;
+//     const oaid = Math.random().toString(32)
+//     const response = await request.post(baseUri)
+//       .send({ username, email, oaid })
+//       .set('Accept', 'application/json');
+//     expect(response.status).toBe(200);
+//     expect(response.body.username).toBeDefined();
+//     expect(response.body.username).toEqual(username);
+//     // remove a user saved
+//     const responseRemove = await request.delete(`${baseUri}/${response.body._id}`);
+//     expect(responseRemove.status).toBe(200);
+//     expect(responseRemove.body.username).toBeDefined();
+//   });
+//   it('should fail save without username with 400 status', async () => {
+//     const response = await request.post(baseUri)
+//       .set('Accept', 'application/json');
+//     expect(response.status).toBe(400);
+//     expect(response.body.username).toBeUndefined();
+//   });
+// });
 // get by id
 describe('should get user by id', function () {
     it('should response with 200 status', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -114,7 +96,7 @@ describe('should get user by id', function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    id = '601ffac2ea5fd239e873ea91';
+                    id = '6020287d9fdf5e756921a923';
                     return [4 /*yield*/, request.get(baseUri + "/" + id)];
                 case 1:
                     response = _a.sent();
@@ -146,7 +128,7 @@ describe('should update a user', function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    id = '601ffac2ea5fd239e873ea91';
+                    id = '6020287d9fdf5e756921a923';
                     user = {
                         username: 'user update with test',
                         email: "test@" + Math.random().toString(5) + ".com",

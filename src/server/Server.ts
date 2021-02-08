@@ -4,7 +4,8 @@ import morgan from 'morgan';
 import router from '../routes';
 import errorHandler from '../exceptions/errorHandler';
 import { stream } from '../utils';
-
+import passport from 'passport'
+import AzureStrategy from '../passport/azureStrategy'
 /**
  *
  *
@@ -80,9 +81,15 @@ class Server {
     }
 
     this.app.use(express.json());
+    this.initializePassport()
     this.app.use(router);
   }
 
+  private initializePassport () {
+    this.app.use(passport.initialize());
+    passport.use(AzureStrategy)
+    
+  }
   /**
    *
    * Initialize the routes of application

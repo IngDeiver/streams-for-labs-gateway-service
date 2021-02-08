@@ -9,6 +9,8 @@ var morgan_1 = __importDefault(require("morgan"));
 var routes_1 = __importDefault(require("../routes"));
 var errorHandler_1 = __importDefault(require("../exceptions/errorHandler"));
 var utils_1 = require("../utils");
+var passport_1 = __importDefault(require("passport"));
+var azureStrategy_1 = __importDefault(require("../passport/azureStrategy"));
 /**
  *
  *
@@ -66,7 +68,12 @@ var Server = /** @class */ (function () {
             this.app.use(cors_1["default"]({ origin: true, credentials: true }));
         }
         this.app.use(express_1["default"].json());
+        this.initializePassport();
         this.app.use(routes_1["default"]);
+    };
+    Server.prototype.initializePassport = function () {
+        this.app.use(passport_1["default"].initialize());
+        passport_1["default"].use(azureStrategy_1["default"]);
     };
     /**
      *
