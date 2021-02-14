@@ -123,6 +123,7 @@ class UserController {
   public static async authAdmin(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
+      
       const user: IUser | null = await User.findOne({email})
       let verifyPassword = false;
       
@@ -137,6 +138,8 @@ class UserController {
       }
       res.json(resp);
     } catch (error) {
+      console.log(error);
+      
       return next(new HttpException(error.status || 500, error.message));
     }
   }

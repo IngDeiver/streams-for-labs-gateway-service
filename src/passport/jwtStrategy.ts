@@ -17,7 +17,9 @@ const opts = {
 
 
 const jwtStrategy = new JwtStrategy(opts, function(jwt_payload: any, done: Function) {
-    User.findOne({ oaid: jwt_payload.email}, function(err, user) {
+    console.log("Admin payload -> ", jwt_payload);
+    
+    User.findOne({ email: jwt_payload.email}, function(err, user) {
         if (err) {
             return done(err, false);
         }

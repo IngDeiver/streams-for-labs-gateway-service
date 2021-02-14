@@ -221,6 +221,7 @@ var UserController = /** @class */ (function () {
                     case 0:
                         _b.trys.push([0, 5, , 6]);
                         _a = req.body, email = _a.email, password = _a.password;
+                        console.log(email, password);
                         return [4 /*yield*/, models_1.User.findOne({ email: email })];
                     case 1:
                         user = _b.sent();
@@ -244,6 +245,7 @@ var UserController = /** @class */ (function () {
                         return [3 /*break*/, 6];
                     case 5:
                         error_6 = _b.sent();
+                        console.log(error_6);
                         return [2 /*return*/, next(new exceptions_1.HttpException(error_6.status || 500, error_6.message))];
                     case 6: return [2 /*return*/];
                 }
