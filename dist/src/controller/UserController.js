@@ -221,7 +221,6 @@ var UserController = /** @class */ (function () {
                     case 0:
                         _b.trys.push([0, 5, , 6]);
                         _a = req.body, email = _a.email, password = _a.password;
-                        console.log(email, password);
                         return [4 /*yield*/, models_1.User.findOne({ email: email })];
                     case 1:
                         user = _b.sent();
