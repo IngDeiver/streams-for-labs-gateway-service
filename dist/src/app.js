@@ -14,6 +14,6 @@ database_1["default"].connect();
 // START
 // eslint-disable-next-line no-console
 if (process.env.NODE_ENV !== 'test') {
-    server.listen(function () { return utils_1.logger.info("\uD83D\uDE80 App listening on the port " + PORT); });
+    server.listen(function () { return utils_1.logger.info("\uD83D\uDE80 Gateway service listening on port " + PORT); });
 }
 exports["default"] = server;

@@ -1,8 +1,10 @@
 // Managament admin service end points
 import apiAdapter from './adapter'
 import { AxiosResponse, AxiosError} from 'axios'
+import '../../config/dotenv'
 
-const ADMIN_SERVICE_BASE_URL = 'http://localhost:3002'
+const ADMIN_SERVICE_BASE_URL = process.env.ADMIN_SERVICE_BASE_URL || ""
+
 const apiAdminService = apiAdapter(ADMIN_SERVICE_BASE_URL)
 
 // prefixes

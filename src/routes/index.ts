@@ -17,7 +17,7 @@ router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), 
 
 // ---- Redirect to services ---
 router.use((req, res, next) => {
-    console.log("Called: ", req.path)
+    console.log(`Redirect request to: ${req.url}`)
     next()
 })
 

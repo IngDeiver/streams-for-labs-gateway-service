@@ -18,7 +18,7 @@ router.use(prefix + "/admin/login", function (req, res, next) { return UserContr
 router.use(prefix + "/admin", passport_1["default"].authenticate('jwt', { session: false }), admin_route_1["default"]);
 // ---- Redirect to services ---
 router.use(function (req, res, next) {
-    console.log("Called: ", req.path);
+    console.log("Redirect request to: " + req.url);
     next();
 });
 // admin service redirect
