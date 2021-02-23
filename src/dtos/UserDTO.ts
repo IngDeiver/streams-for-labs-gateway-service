@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
 
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, IsDate } from 'class-validator';
 
 /**
  *
@@ -26,17 +26,21 @@ class UserDTO {
     @IsString()
     public password: string
 
+    @IsDate()
+    public sync_hour: Date | null
+
     /**
    * Creates an instance of UserDTO.
    * @param {string} username - the name user
    * @param {string} email - the email user
    * @memberof UserDTO
    */
-    constructor(username: string, email: string, oaid: string, password: string) {
+    constructor(username: string, email: string, oaid: string, password: string, sync_hour: Date | null = null) {
       this.username = username;
       this.email = email;
       this.oaid = oaid;
       this.password = password;
+      this.sync_hour = sync_hour;
     }
 }
 

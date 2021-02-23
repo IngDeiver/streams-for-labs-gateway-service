@@ -11,6 +11,7 @@ interface   IUser extends Document{
     email: String,
     oaid: String,
     password: String,
-    verifyPassword: Function
+    verifyPassword: Function,
+    sync_hour: Date
 }
 export default  IUser;

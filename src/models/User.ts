@@ -7,7 +7,8 @@ const UserSchema: Schema<IUser> = new Schema({
   email: { type: String, required: false, unique: true},
   oaid: { type: String, required: false },
   isAdmin: { type: Boolean, default:false },
-  password: {type: String, required: false}
+  password: {type: String, required: false},
+  sync_hour:{type: Date, required: false}
 });
 
 UserSchema.methods.verifyPassword = function (password: string) {

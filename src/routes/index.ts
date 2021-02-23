@@ -6,6 +6,7 @@ import UserController  from '../controller/UserController';
 
 // services
 import AdminServiceRouter from './gateway/admin.service'
+import FileServiceRouter from './gateway/file.service'
 
 const router = Router();
 const prefix: string = '/api';
@@ -23,4 +24,5 @@ router.use((req, res, next) => {
 
 // admin service redirect
 router.use(passport.authenticate('jwt', { session: false }), AdminServiceRouter);
+router.use(passport.authenticate('jwt', { session: false }), FileServiceRouter);
 export default router;
