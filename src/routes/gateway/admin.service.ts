@@ -30,7 +30,11 @@ import { HttpException } from '../../exceptions';
   
       // list configs
       this.router.get(`${ADMIN_API_PREFIX}/${ADMIN_SERVICE_PREFIX}`, (req: Request, res: Response, next: NextFunction) => {
-        res.redirect(req.path)
+        apiAdminService.get(req.path)
+          .then((service_response: AxiosResponse) => {
+              res.json(service_response.data)
+          })
+          .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
       });
   
       // Update config

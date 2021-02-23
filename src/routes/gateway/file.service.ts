@@ -35,7 +35,11 @@ import { HttpException } from '../../exceptions';
   
       // list files
       this.router.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}`, (req: Request, res: Response, next: NextFunction) => {
-        res.redirect(req.path)
+        apiStorageService.get(req.path)
+        .then((service_response: AxiosResponse) => {
+            res.json(service_response.data)
+        })
+        .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
       });
   
       // Update file
