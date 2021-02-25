@@ -24,5 +24,5 @@ router.use((req, res, next) => {
 // admin service redirect
 router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), AdminServiceRouter);
 // file service redirect
-router.use(`${prefix}/file`, passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
+router.use(`${prefix}/file`,passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
 export default router;

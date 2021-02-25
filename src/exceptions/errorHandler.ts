@@ -19,7 +19,7 @@ const errorHandler = (err: HttpException, req: Request, res: Response, cb: NextF
   res.status(err.status).json({
     error: {
       message: err.message,
-      status: err.status,
+      status: err.status || 500,
       stack: err.stack,
     },
   });

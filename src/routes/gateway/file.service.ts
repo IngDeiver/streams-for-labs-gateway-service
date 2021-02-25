@@ -42,6 +42,17 @@ class FileServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     });
 
+     // get file
+     this.router.get(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+      const user: IUser = <IUser>req.user
+      const author = user._id
+      apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
+        .then((service_response:any) => {
+          res.send(service_response.data)
+        })
+        .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+    })
+
     // Update file
     this.router.put(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
       apiStorageService.put(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}`)
@@ -69,7 +80,7 @@ class FileServiceRouter implements IRoute {
         
 
         apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}`, 
-          {formData, user:user._id}, { headers: formData.getHeaders() })
+          {file:formData, user:user._id}, { headers: formData.getHeaders() })
           .then((service_response: AxiosResponse) => {
             res.json(service_response.data)
           })

@@ -17,7 +17,7 @@ var errorHandler = function (err, req, res, cb) {
     res.status(err.status).json({
         error: {
             message: err.message,
-            status: err.status,
+            status: err.status || 500,
             stack: err.stack
         }
     });
