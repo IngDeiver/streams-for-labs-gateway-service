@@ -29,8 +29,8 @@ import { HttpException } from '../../exceptions';
     createRoutes(): void {
   
       // list configs
-      this.router.get(`${ADMIN_API_PREFIX}/${ADMIN_SERVICE_PREFIX}`, (req: Request, res: Response, next: NextFunction) => {
-        apiAdminService.get(req.path)
+      this.router.get(`/`, (req: Request, res: Response, next: NextFunction) => {
+        apiAdminService.get(`${ADMIN_API_PREFIX}/${ADMIN_SERVICE_PREFIX}`)
           .then((service_response: AxiosResponse) => {
               res.json(service_response.data)
           })
@@ -38,8 +38,8 @@ import { HttpException } from '../../exceptions';
       });
   
       // Update config
-      this.router.put(`${ADMIN_API_PREFIX}/${ADMIN_SERVICE_PREFIX}/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
-        apiAdminService.put(req.path, req.body)
+      this.router.put(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+        apiAdminService.put(`${ADMIN_API_PREFIX}/${ADMIN_SERVICE_PREFIX}/${req.path}`, req.body)
           .then((service_response: AxiosResponse) => {
               res.json(service_response.data)
           })

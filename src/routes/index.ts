@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import UserRouter from './user.route';
-import AdminRouter from './admin.route';
 import passport from 'passport'
+import { logger } from '../utils';
 import UserController  from '../controller/UserController';
 
 // services
@@ -12,17 +11,18 @@ const router = Router();
 const prefix: string = '/api';
 
 // --- Authorization layer ---
-router.use(`${prefix}/user`, passport.authenticate('oauth-bearer', { session: false }), UserRouter);
+// login admin
 router.use(`${prefix}/admin/login`, (req, res, next) => UserController.authAdmin(req, res, next));
-router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), AdminRouter);
 
-// ---- Redirect to services ---
+// ---- Gateway layer (all request need are authenticated) ---
 router.use((req, res, next) => {
-    console.log(`Redirect request to: ${req.url}`)
+    const params = req.params
+    logger.info(`Redirect request to: ${req.url}${params.id ? "/" + params :''}`)
     next()
 })
 
 // admin service redirect
-router.use(passport.authenticate('jwt', { session: false }), AdminServiceRouter);
-router.use(passport.authenticate('jwt', { session: false }), FileServiceRouter);
+router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), AdminServiceRouter);
+// file service redirect
+router.use(`${prefix}/file`, passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
 export default router;

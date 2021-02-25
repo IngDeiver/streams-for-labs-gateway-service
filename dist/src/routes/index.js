@@ -4,9 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var express_1 = require("express");
-var user_route_1 = __importDefault(require("./user.route"));
-var admin_route_1 = __importDefault(require("./admin.route"));
 var passport_1 = __importDefault(require("passport"));
+var utils_1 = require("../utils");
 var UserController_1 = __importDefault(require("../controller/UserController"));
 // services
 var admin_service_1 = __importDefault(require("./gateway/admin.service"));
@@ -14,15 +13,16 @@ var file_service_1 = __importDefault(require("./gateway/file.service"));
 var router = express_1.Router();
 var prefix = '/api';
 // --- Authorization layer ---
-router.use(prefix + "/user", passport_1["default"].authenticate('oauth-bearer', { session: false }), user_route_1["default"]);
+// login admin
 router.use(prefix + "/admin/login", function (req, res, next) { return UserController_1["default"].authAdmin(req, res, next); });
-router.use(prefix + "/admin", passport_1["default"].authenticate('jwt', { session: false }), admin_route_1["default"]);
-// ---- Redirect to services ---
+// ---- Gateway layer (all request need are authenticated) ---
 router.use(function (req, res, next) {
-    console.log("Redirect request to: " + req.url);
+    var params = req.params;
+    utils_1.logger.info("Redirect request to: " + req.url + (params.id ? "/" + params : ''));
     next();
 });
 // admin service redirect
-router.use(passport_1["default"].authenticate('jwt', { session: false }), admin_service_1["default"]);
-router.use(passport_1["default"].authenticate('jwt', { session: false }), file_service_1["default"]);
+router.use(prefix + "/admin", passport_1["default"].authenticate('jwt', { session: false }), admin_service_1["default"]);
+// file service redirect
+router.use(prefix + "/file", passport_1["default"].authenticate('oauth-bearer', { session: false }), file_service_1["default"]);
 exports["default"] = router;

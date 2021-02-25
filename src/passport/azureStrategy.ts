@@ -13,6 +13,8 @@ const options = {
      
       // Search user
       User.findOne({ oaid: token.oid }, async function(err: Error, user: IUser) {
+        console.log("OFFICE USER: ", user);
+        
         if (err) {
           return done(err);
         }

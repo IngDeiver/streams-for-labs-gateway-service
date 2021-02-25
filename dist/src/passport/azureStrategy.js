@@ -53,6 +53,7 @@ var AzurebearerStrategy = new passport_azure_ad_1.BearerStrategy(options, functi
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
+                                console.log("OFFICE USER: ", user);
                                 if (err) {
                                     return [2 /*return*/, done(err)];
                                 }

@@ -8,6 +8,7 @@ var opts = {
 };
 var jwtStrategy = new JwtStrategy(opts, function (jwt_payload, done) {
     models_1.User.findOne({ email: jwt_payload.email }, function (err, user) {
+        console.log("Admin USER: ", user);
         if (err) {
             return done(err, false);
         }
