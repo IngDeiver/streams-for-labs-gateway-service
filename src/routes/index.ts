@@ -6,6 +6,7 @@ import UserController  from '../controller/UserController';
 // services
 import AdminServiceRouter from './gateway/admin.service'
 import FileServiceRouter from './gateway/file.service'
+import  PhotoServiceRouter from './gateway/photo.service'
 
 const router = Router();
 const prefix: string = '/api';
@@ -23,6 +24,8 @@ router.use((req, res, next) => {
 
 // admin service redirect
 router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), AdminServiceRouter);
-// file service redirect
-router.use(`${prefix}/file`,passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
+// Storage service file redirect
+router.use(`${prefix}/file`, passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
+// Storage service photo redirect (Carlos redirigelo al photo service)
+router.use(`${prefix}/photo`, passport.authenticate('oauth-bearer', { session: false }), PhotoServiceRouter);
 export default router;
