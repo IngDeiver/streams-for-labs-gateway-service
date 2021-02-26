@@ -3,7 +3,7 @@ const axios = require('axios');
 const adapter = (baseURL: string) => {
   return axios.create({
     baseURL: baseURL,
-    //headers: {'Content-Type': 'application/json'}
+    headers: {'Content-Type': 'application/json'}
   });
 }
 
