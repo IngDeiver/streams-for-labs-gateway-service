@@ -55,15 +55,25 @@ class FileServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
 
-    // Update file
-    this.router.put(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
-      apiStorageService.put(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}`)
+    // // Update file
+    // this.router.put(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+    //   apiStorageService.put(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}`)
+    //     .then((service_response: AxiosResponse) => {
+    //       res.json(service_response.data)
+    //     })
+    //     .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+    // })
+
+    // Remove file
+    this.router.delete(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+      const user: IUser = <IUser>req.user
+      const author = user._id
+      apiStorageService.delete(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
         .then((service_response: AxiosResponse) => {
           res.json(service_response.data)
         })
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
-
 
     // Upload file
     this.router.post(`/`, upload.single('file'),
@@ -72,7 +82,7 @@ class FileServiceRouter implements IRoute {
         let formData = new FormData();
         const file = req.file
         const user: IUser = <IUser>req.user
-
+        const author = user._id
         formData.append('file', file.buffer)
 
 
@@ -81,8 +91,8 @@ class FileServiceRouter implements IRoute {
         console.log("Headers: ", formData.getHeaders());
         
 
-        apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}`, 
-          {file:formData, user:user._id}, { headers: formData.getHeaders() })
+        apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${author}`, 
+          {file:formData}, { headers: formData.getHeaders() })
           .then((service_response: AxiosResponse) => {
             res.json(service_response.data)
           })

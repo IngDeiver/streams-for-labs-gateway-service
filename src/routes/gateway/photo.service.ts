@@ -51,6 +51,17 @@ class PhotoServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
 
+     // Remove photo
+     this.router.delete(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+      const user: IUser = <IUser>req.user
+      const author = user._id
+      apiStorageService.delete(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
+        .then((service_response: AxiosResponse) => {
+          res.json(service_response.data)
+        })
+        .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+    })
+
   }
 }
 export default new PhotoServiceRouter().router;
