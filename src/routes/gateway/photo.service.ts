@@ -52,10 +52,13 @@ class PhotoServiceRouter implements IRoute {
     })
 
      // Remove photo
-     this.router.delete(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
+     this.router.delete(`/`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
       const author = user._id
-      apiStorageService.delete(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
+      const filesToRemove = req.body.files
+      console.log("Resend: ", filesToRemove);
+      apiStorageService.delete(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${author}`,
+      {data: {files: filesToRemove}})
         .then((service_response: AxiosResponse) => {
           res.json(service_response.data)
         })
