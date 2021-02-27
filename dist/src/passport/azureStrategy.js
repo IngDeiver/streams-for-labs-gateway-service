@@ -39,6 +39,7 @@ exports.__esModule = true;
 var passport_azure_ad_1 = require("passport-azure-ad");
 var models_1 = require("../models");
 var services_1 = require("../services");
+var mkdirp = require('mkdirp');
 var options = {
     identityMetadata: "https://login.microsoftonline.com/618bab0f-20a4-4de3-a10c-e20cee96bb35/v2.0/.well-known/openid-configuration",
     clientID: "4ffd1ea7-1b1d-4ad6-96d5-916315128e56"
@@ -49,7 +50,7 @@ var AzurebearerStrategy = new passport_azure_ad_1.BearerStrategy(options, functi
             // Search user
             models_1.User.findOne({ oaid: token.oid }, function (err, user) {
                 return __awaiter(this, void 0, void 0, function () {
-                    var oid, preferred_username, name_1, newUser, error_1;
+                    var oid, preferred_username, name_1, newUser, USER_FOLDER, FOLDER_OPTIONS, error_1;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
@@ -65,10 +66,16 @@ var AzurebearerStrategy = new passport_azure_ad_1.BearerStrategy(options, functi
                                 _a.trys.push([1, 3, , 4]);
                                 return [4 /*yield*/, services_1.UserService
                                         .create(new models_1.User({ username: name_1, oaid: oid, email: preferred_username }))
-                                    // pass user to next request
+                                    // Create folder to sotorage files
                                 ];
                             case 2:
                                 newUser = _a.sent();
+                                USER_FOLDER = "/home/streams-for-lab.co/" + (name_1 === null || name_1 === void 0 ? void 0 : name_1.toLowerCase().trim().replace(/ /g, '-'));
+                                FOLDER_OPTIONS = { mode: '700' };
+                                mkdirp.sync("" + USER_FOLDER, FOLDER_OPTIONS);
+                                mkdirp.sync(USER_FOLDER + "/videos", FOLDER_OPTIONS);
+                                mkdirp.sync(USER_FOLDER + "/photos", FOLDER_OPTIONS);
+                                mkdirp.sync(USER_FOLDER + "/files", FOLDER_OPTIONS);
                                 // pass user to next request
                                 return [2 /*return*/, done(null, newUser)];
                             case 3:

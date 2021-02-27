@@ -2,6 +2,7 @@ import { BearerStrategy }from 'passport-azure-ad'
 import { IUser } from '../interfaces';
 import { User } from '../models';
 import { UserService } from '../services';
+const mkdirp = require('mkdirp')
 
 const options = {
     identityMetadata: "https://login.microsoftonline.com/618bab0f-20a4-4de3-a10c-e20cee96bb35/v2.0/.well-known/openid-configuration",
@@ -28,6 +29,14 @@ const options = {
           try {
             const newUser:IUser = await UserService
             .create(new User({username: name, oaid: oid, email: preferred_username}))
+            // Create folder to sotorage files
+            const USER_FOLDER = `/home/streams-for-lab.co/${name?.toLowerCase().trim().replace(/ /g,'-')}`
+            const FOLDER_OPTIONS ={mode: '700'}
+            mkdirp.sync(`${USER_FOLDER}`, FOLDER_OPTIONS)
+            mkdirp.sync(`${USER_FOLDER}/videos`, FOLDER_OPTIONS)
+            mkdirp.sync(`${USER_FOLDER}/photos`, FOLDER_OPTIONS)
+            mkdirp.sync(`${USER_FOLDER}/files`, FOLDER_OPTIONS)
+
             // pass user to next request
             return done(null, newUser)
 
