@@ -2,9 +2,9 @@
 import apiAdapter from './adapter'
 import { AxiosResponse, AxiosError } from 'axios'
 
-const STORAGE_SERVICE_BASE_URL = process.env.STORAGE_SERVICE_BASE_URL || ""
+const PHOTO_SERVICE_BASE_URL  = process.env.PHOTO_SERVICE_BASE_URL  || ""
 
-const apiStorageService = apiAdapter(STORAGE_SERVICE_BASE_URL)
+const apiStorageService = apiAdapter(PHOTO_SERVICE_BASE_URL )
 
 // prefixes
 const STORAGE_SERVICE_PREFIX: string = 'photo';
