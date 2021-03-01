@@ -33,6 +33,29 @@ class FileServiceRouter implements IRoute {
 
   createRoutes(): void {
 
+      // get sotorage used
+      this.router.get(`/storage`, (req: Request, res: Response, next: NextFunction) => {
+        const user: IUser = <IUser>req.user
+        const author = user._id
+        apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/storage/${author}`)
+          .then((service_response:any) => {
+            res.send(service_response.data)
+          })
+          .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+      })
+
+       // get max sotorage avalable
+       this.router.get(`/max-storage`, (req: Request, res: Response, next: NextFunction) => {
+        const user: IUser = <IUser>req.user
+        const author = user._id
+        apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/max-storage/${author}`)
+          .then((service_response:any) => {
+            res.send(service_response.data)
+          })
+          .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+      })
+
+      
     // list files
     this.router.get(`/`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
@@ -55,14 +78,7 @@ class FileServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
 
-    // // Update file
-    // this.router.put(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
-    //   apiStorageService.put(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}`)
-    //     .then((service_response: AxiosResponse) => {
-    //       res.json(service_response.data)
-    //     })
-    //     .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
-    // })
+  
 
     // Remove file
     this.router.delete(`/`, (req: Request, res: Response, next: NextFunction) => {
@@ -85,6 +101,7 @@ class FileServiceRouter implements IRoute {
         let formData = new FormData();
         const file = req.file
         const user: IUser = <IUser>req.user
+        const author = user._id
         formData.append('file', file.buffer)
 
 
@@ -93,8 +110,8 @@ class FileServiceRouter implements IRoute {
         console.log("Headers: ", formData.getHeaders());
         
 
-        apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}`, 
-          {file:formData, user}, { headers: formData.getHeaders() })
+        apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${author}`, 
+          {file:formData}, { headers: formData.getHeaders() })
           .then((service_response: AxiosResponse) => {
             res.json(service_response.data)
           })
