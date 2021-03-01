@@ -102,7 +102,7 @@ class FileServiceRouter implements IRoute {
         const file = req.file
         const user: IUser = <IUser>req.user
         const author = user._id
-        formData.append('file', file.buffer)
+        formData.append('file', file.buffer, file.originalname)
 
 
         console.log(formData);
@@ -111,7 +111,7 @@ class FileServiceRouter implements IRoute {
         
 
         apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${author}`, 
-          {file:formData}, { headers: formData.getHeaders() })
+          formData, { headers: formData.getHeaders() })
           .then((service_response: AxiosResponse) => {
             res.json(service_response.data)
           })
