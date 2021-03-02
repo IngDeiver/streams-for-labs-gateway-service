@@ -1,17 +1,16 @@
 import http from 'http'
+import '../config/dotenv'
 const TOKEN = process.env.VAULT_TOKEN
-
 
 export const queryVault = (uri: string) => {
 
   return new Promise((resolve, reject) => {
-  
     const options = {
       port: 8200,
       host: process.env.VAULT_HOST,
-      path: `/v1/${uri}`,
+      path: uri,
       headers:{
-        'X-Vault-Token': TOKEN
+        'Authorization': `Bearer ${TOKEN}`
       }
     }
   
@@ -34,6 +33,6 @@ export const queryVault = (uri: string) => {
   })
 }
 
-queryVault("/v1/kv/rsa")
-.then(data  => console.log(data))
-.catch(err  => console.log(err.message))
+// queryVault("/v1/kv/rsa")
+// .then(data  => console.log(data))
+// .catch(err  => console.log(err.message))

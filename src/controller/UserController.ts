@@ -132,6 +132,8 @@ class UserController {
       if (!user || !verifyPassword) throw new HttpException(401, 'Invalid credentials');
 
       const token = await sign(user);
+      console.log("Admin token: ", token);
+      
       const resp = {
         type:"JWT",
         acces_token: token

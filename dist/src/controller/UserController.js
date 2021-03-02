@@ -236,6 +236,7 @@ var UserController = /** @class */ (function () {
                         return [4 /*yield*/, jwt_1.sign(user)];
                     case 4:
                         token = _b.sent();
+                        console.log("Admin token: ", token);
                         resp = {
                             type: "JWT",
                             acces_token: token
