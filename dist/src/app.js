@@ -7,7 +7,7 @@ var Server_1 = __importDefault(require("./server/Server"));
 var database_1 = __importDefault(require("./config/database"));
 require("./config/dotenv");
 var utils_1 = require("./utils");
-var PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+var PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 var server = Server_1["default"].init(PORT);
 // database
 database_1["default"].connect();

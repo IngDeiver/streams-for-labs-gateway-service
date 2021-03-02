@@ -3,7 +3,7 @@ import Database from './config/database';
 import './config/dotenv';
 import { logger } from './utils';
 
-const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 const server: Server = Server.init(PORT);
 
 // database

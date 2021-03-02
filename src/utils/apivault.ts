@@ -6,7 +6,7 @@ export const queryVault = (uri: string) => {
 
   return new Promise((resolve, reject) => {
     const options = {
-      port: 8200,
+      port: 80,
       host: process.env.VAULT_HOST,
       path: uri,
       headers:{
