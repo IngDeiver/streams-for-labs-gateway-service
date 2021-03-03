@@ -1,6 +1,7 @@
 // Managament File service end points
 import apiAdapter from './adapter'
 import { AxiosResponse, AxiosError } from 'axios'
+import stream from 'stream'
 
 const PHOTO_SERVICE_BASE_URL  = process.env.PHOTO_SERVICE_BASE_URL  || ""
 
@@ -40,13 +41,30 @@ class PhotoServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     });
 
-     // get file
+     // get pthoto
      this.router.get(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
       const author = user._id
       apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
         .then((service_response:any) => {
-          res.send(service_response.data)
+          const photo = service_response.data
+          const attachmentHeader = service_response.headers['content-disposition']
+          console.log(typeof(photo));
+          console.log(photo);
+          
+          const buffer = Buffer.from(photo)
+          console.log(buffer);
+          
+          const readStream = new stream.PassThrough();
+          readStream.end(buffer);
+          console.log(attachmentHeader);
+          
+          res.writeHead(200, {
+              "Content-disposition": "attachment; filename=" + attachmentHeader.split("=")[1],
+              "Content-Type": "application/octet-stream",
+              "Content-Length": buffer.length
+          });
+          res.end(buffer);
         })
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
