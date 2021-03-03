@@ -48,19 +48,13 @@ class PhotoServiceRouter implements IRoute {
       apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
         .then((service_response:any) => {
           const photo = service_response.data
-          const attachmentHeader = service_response.headers['content-disposition']
-          console.log(typeof(photo));
-          console.log(photo);
-          
-          const buffer = Buffer.from(photo)
-          console.log(buffer);
+          const buffer = Buffer.from(photo.image, "base64")
           
           const readStream = new stream.PassThrough();
           readStream.end(buffer);
-          console.log(attachmentHeader);
           
           res.writeHead(200, {
-              "Content-disposition": "attachment; filename=" + attachmentHeader.split("=")[1],
+              "Content-disposition": "attachment; filename=" + photo.name,
               "Content-Type": "application/octet-stream",
               "Content-Length": buffer.length
           });

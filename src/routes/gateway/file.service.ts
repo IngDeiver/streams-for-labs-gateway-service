@@ -83,8 +83,6 @@ class FileServiceRouter implements IRoute {
           const buffer = Buffer.from(file)
           console.log(buffer);
           
-          const readStream = new stream.PassThrough();
-          readStream.end(buffer);
           console.log(attachmentHeader);
           
           res.writeHead(200, {
