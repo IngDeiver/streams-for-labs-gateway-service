@@ -2,6 +2,7 @@
 import apiAdapter from './adapter'
 import { AxiosResponse, AxiosError } from 'axios'
 import multer from 'multer'
+import stream from 'stream'
 const FormData = require('form-data');
 
 const STORAGE_SERVICE_BASE_URL = process.env.STORAGE_SERVICE_BASE_URL || ""
@@ -21,6 +22,7 @@ import {
 } from 'express';
 import { IRoute, IUser } from '../../interfaces';
 import { HttpException } from '../../exceptions';
+import { type } from 'os';
 
 class FileServiceRouter implements IRoute {
   public router = Router();
@@ -73,7 +75,24 @@ class FileServiceRouter implements IRoute {
       const author = user._id
       apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
         .then((service_response:any) => {
-          res.send(service_response.data)
+          const file = service_response.data
+          const attachmentHeader = service_response.headers['content-disposition']
+          console.log(typeof(file));
+          console.log(file);
+          
+          const buffer = Buffer.from(file)
+          console.log(buffer);
+          
+          const readStream = new stream.PassThrough();
+          readStream.end(buffer);
+          console.log(attachmentHeader);
+          
+          res.writeHead(200, {
+              "Content-disposition": "attachment; filename=" + attachmentHeader.split("=")[1],
+              "Content-Type": "application/octet-stream",
+              "Content-Length": buffer.length
+          });
+          res.end(buffer);
         })
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
@@ -102,12 +121,13 @@ class FileServiceRouter implements IRoute {
         const file = req.file
         const user: IUser = <IUser>req.user
         const author = user._id
+
         formData.append('file', file.buffer, file.originalname)
+        formData.append("username", user.username);
 
 
         console.log(formData);
         console.log("File: ", file);
-        console.log("Headers: ", formData.getHeaders());
         
 
         apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${author}`, 
