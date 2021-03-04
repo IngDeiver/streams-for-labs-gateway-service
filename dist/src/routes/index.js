@@ -11,6 +11,7 @@ var UserController_1 = __importDefault(require("../controller/UserController"));
 var admin_service_1 = __importDefault(require("./gateway/admin.service"));
 var file_service_1 = __importDefault(require("./gateway/file.service"));
 var photo_service_1 = __importDefault(require("./gateway/photo.service"));
+var downladPhoto_service_1 = __importDefault(require("./gateway/downladPhoto.service"));
 var router = express_1.Router();
 var prefix = '/api';
 // --- Authorization layer ---
@@ -27,5 +28,6 @@ router.use(prefix + "/admin", passport_1["default"].authenticate('jwt', { sessio
 // Storage service file redirect
 router.use(prefix + "/file", passport_1["default"].authenticate('oauth-bearer', { session: false }), file_service_1["default"]);
 // Storage service photo redirect (Carlos redirigelo al photo service)
+router.use(prefix + "/photo/download", downladPhoto_service_1["default"]);
 router.use(prefix + "/photo", passport_1["default"].authenticate('oauth-bearer', { session: false }), photo_service_1["default"]);
 exports["default"] = router;

@@ -7,6 +7,7 @@ import UserController  from '../controller/UserController';
 import AdminServiceRouter from './gateway/admin.service'
 import FileServiceRouter from './gateway/file.service'
 import  PhotoServiceRouter from './gateway/photo.service'
+import  DowloadPhotoServiceRouter from './gateway/downladPhoto.service'
 
 const router = Router();
 const prefix: string = '/api';
@@ -27,5 +28,6 @@ router.use(`${prefix}/admin`, passport.authenticate('jwt', { session: false }), 
 // Storage service file redirect
 router.use(`${prefix}/file`, passport.authenticate('oauth-bearer', { session: false }), FileServiceRouter);
 // Storage service photo redirect (Carlos redirigelo al photo service)
+router.use(`${prefix}/photo/download`, DowloadPhotoServiceRouter);
 router.use(`${prefix}/photo`, passport.authenticate('oauth-bearer', { session: false }), PhotoServiceRouter);
 export default router;
