@@ -73,20 +73,16 @@ class FileServiceRouter implements IRoute {
      this.router.get(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
       const author = user._id
-      apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/${req.path}/${author}`)
+      apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}${req.path}/${author}`)
         .then((service_response:any) => {
           const file = service_response.data
-          const attachmentHeader = service_response.headers['content-disposition']
-          console.log(typeof(file));
-          console.log(file);
+          const buffer = Buffer.from(file.file, "base64")
+          const readStream = new stream.PassThrough();
           
-          const buffer = Buffer.from(file)
-          console.log(buffer);
-          
-          console.log(attachmentHeader);
+          readStream.end(buffer);
           
           res.writeHead(200, {
-              "Content-disposition": "attachment; filename=" + attachmentHeader.split("=")[1],
+              "Content-disposition": "attachment; filename=" + file.name,
               "Content-Type": "application/octet-stream",
               "Content-Length": buffer.length
           });
