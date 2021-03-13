@@ -1,0 +1,8 @@
+DB_URI=mongodb+srv://deiver:DEIBERandres1@cluster0.f2abb.mongodb.net/streams-for-labs-dev?retryWrites=true&w=majority
+
+ADMIN_SERVICE_BASE_URL=http://localhost:6000
+STORAGE_SERVICE_BASE_URL=http://localhost:4000
+PHOTO_SERVICE_BASE_URL=http://localhost:5000
+
+VAULT_HOST=streamsforlab3.bucaramanga.upb.edu.co
+VAULT_TOKEN=s.svTh5haBOLUE37V7sjrFKABm
