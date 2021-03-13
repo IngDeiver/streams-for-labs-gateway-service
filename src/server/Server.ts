@@ -4,7 +4,9 @@ import morgan from 'morgan';
 import router from '../routes';
 import errorHandler from '../exceptions/errorHandler';
 import { stream } from '../utils';
-
+import passport from 'passport'
+import AzureStrategy from '../passport/azureStrategy'
+import JwtStrategy from '../passport/jwtStrategy'
 /**
  *
  *
@@ -73,16 +75,22 @@ class Server {
   private initializeMiddlewares() {
     if (this.env === 'production') {
       this.app.use(morgan('combined', { stream }));
-      this.app.use(cors({ origin: 'your.domain.com', credentials: true }));
+      this.app.use(cors({ origin: "http://127.0.0.1", credentials: true }));
     } else if (this.env === 'development') {
       this.app.use(morgan('dev', { stream }));
       this.app.use(cors({ origin: true, credentials: true }));
     }
 
     this.app.use(express.json());
+    this.initializePassport()
     this.app.use(router);
   }
 
+  private initializePassport () {
+    this.app.use(passport.initialize());
+    passport.use(AzureStrategy)
+    passport.use(JwtStrategy)
+  }
   /**
    *
    * Initialize the routes of application

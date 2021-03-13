@@ -11,6 +11,7 @@
         "paths": {
         "test-utils": ["./utils/test-utils"]
         },
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "lib": ["es2018", "dom"]
     }
 }

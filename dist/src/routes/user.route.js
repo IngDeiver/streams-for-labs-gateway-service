@@ -24,9 +24,6 @@ var UserRouter = /** @class */ (function () {
         // list users
         this.router.get('/', function (req, res, next) { return controller_1.UserControler
             .list(req, res, next); });
-        // Register user
-        this.router.post('/', middlewares_1.validationMiddleware(dtos_1.UserDTO), function (req, res, next) { return controller_1.UserControler
-            .create(req, res, next); });
         // Update user
         this.router.put(this.pathIdParam, middlewares_1.isDefinedParamMiddleware(), middlewares_1.validationMiddleware(dtos_1.UserDTO, true), function (req, res, next) { return controller_1.UserControler
             .updateById(req, res, next); });

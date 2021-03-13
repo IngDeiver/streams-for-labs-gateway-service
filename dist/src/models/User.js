@@ -18,12 +18,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var mongoose_1 = __importStar(require("mongoose"));
+var bcrypt_1 = __importDefault(require("bcrypt"));
 var UserSchema = new mongoose_1.Schema({
     username: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    oaid: { type: String, required: true }
+    email: { type: String, required: false, unique: true },
+    oaid: { type: String, required: false },
+    isAdmin: { type: Boolean, "default": false },
+    password: { type: String, required: false },
+    sync_hour: { type: Date, required: false }
 });
+UserSchema.methods.verifyPassword = function (password) {
+    return bcrypt_1["default"].compare(password, this.password);
+};
 var User = mongoose_1["default"].model('User', UserSchema);
 exports["default"] = User;

@@ -7,8 +7,11 @@ import { Document } from 'mongoose';
  * @extends {Document}
  */
 interface   IUser extends Document{
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    oaid: { type: String, required: true }
+    username: String,
+    email: String,
+    oaid: String,
+    password: String,
+    verifyPassword: Function,
+    sync_hour: Date
 }
 export default  IUser;

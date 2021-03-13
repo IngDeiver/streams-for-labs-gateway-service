@@ -24,10 +24,13 @@ var UserDTO = /** @class */ (function () {
    * @param {string} email - the email user
    * @memberof UserDTO
    */
-    function UserDTO(username, email, oaid) {
+    function UserDTO(username, email, oaid, password, sync_hour) {
+        if (sync_hour === void 0) { sync_hour = null; }
         this.username = username;
         this.email = email;
         this.oaid = oaid;
+        this.password = password;
+        this.sync_hour = sync_hour;
     }
     __decorate([
         class_validator_1.IsNotEmpty(),
@@ -38,9 +41,14 @@ var UserDTO = /** @class */ (function () {
         class_validator_1.IsEmail()
     ], UserDTO.prototype, "email");
     __decorate([
-        class_validator_1.IsNotEmpty(),
         class_validator_1.IsString()
     ], UserDTO.prototype, "oaid");
+    __decorate([
+        class_validator_1.IsString()
+    ], UserDTO.prototype, "password");
+    __decorate([
+        class_validator_1.IsDate()
+    ], UserDTO.prototype, "sync_hour");
     return UserDTO;
 }());
 exports["default"] = UserDTO;
