@@ -6,6 +6,7 @@ WORKDIR /usr/streamsforlab/gateway-service
 COPY package*.json ./
 
 RUN npm install
+RUN npm install -g cross-env
 
 
 # Bundle app source
