@@ -57,7 +57,18 @@ class FileServiceRouter implements IRoute {
           .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
       })
 
-      
+    
+    // list all shared files
+    this.router.get(`/shared`, (req: Request, res: Response, next: NextFunction) => {
+      const user: IUser = <IUser>req.user
+      const author = user._id
+      apiStorageService.get(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/shared/${author}`)
+        .then((service_response: AxiosResponse) => {
+          res.json(service_response.data)
+        })
+        .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+    });
+
     // list files
     this.router.get(`/`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
