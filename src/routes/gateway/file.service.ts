@@ -22,7 +22,6 @@ import {
 } from 'express';
 import { IRoute, IUser } from '../../interfaces';
 import { HttpException } from '../../exceptions';
-import { type } from 'os';
 
 class FileServiceRouter implements IRoute {
   public router = Router();
@@ -117,6 +116,19 @@ class FileServiceRouter implements IRoute {
         })
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     })
+
+  // Share file
+  this.router.post(`/share`, (req: Request, res: Response, next: NextFunction) => {
+    const user: IUser = <IUser>req.user
+    const author = user._id
+
+    apiStorageService.post(`${STORAGE_API_PREFIX}/${STORAGE_SERVICE_PREFIX}/share/${author}`, 
+    {...req.body}, { headers: req.headers })
+    .then((service_response: AxiosResponse) => {
+      res.sendStatus(service_response.status)
+    })
+    .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+  })
 
     // Upload file
     this.router.post(`/`, upload.single('file'),
