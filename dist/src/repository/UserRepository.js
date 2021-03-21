@@ -70,7 +70,7 @@ var UserRepository = /** @class */ (function () {
     UserRepository.prototype.list = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, models_1.User.find({})];
+                return [2 /*return*/, models_1.User.find({}).select('-password -oaid -isAdmin')];
             });
         });
     };

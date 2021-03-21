@@ -30,7 +30,7 @@ class UserRepository implements ICrud<IUser, string> {
    * @memberof UserRepository
    */
   async list(): Promise<Array<IUser>> {
-    return User.find({});
+    return User.find({}).select('-password -oaid -isAdmin');
   }
 
   /**

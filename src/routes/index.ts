@@ -12,9 +12,14 @@ import  DowloadPhotoServiceRouter from './gateway/downladPhoto.service'
 const router = Router();
 const prefix: string = '/api';
 
-// --- Authorization layer ---
+
+// --- User layer ---
 // login admin
-router.use(`${prefix}/admin/login`, (req, res, next) => UserController.authAdmin(req, res, next));
+router.post(`${prefix}/admin/login`, (req, res, next) => UserController.authAdmin(req, res, next));
+
+// list users
+router.get(`${prefix}/users`, passport.authenticate('oauth-bearer', { session: false }), 
+(req, res, next) => UserController.list(req, res, next))
 
 // ---- Gateway layer (all request need are authenticated) ---
 router.use((req, res, next) => {

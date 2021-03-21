@@ -14,9 +14,11 @@ var photo_service_1 = __importDefault(require("./gateway/photo.service"));
 var downladPhoto_service_1 = __importDefault(require("./gateway/downladPhoto.service"));
 var router = express_1.Router();
 var prefix = '/api';
-// --- Authorization layer ---
+// --- User layer ---
 // login admin
-router.use(prefix + "/admin/login", function (req, res, next) { return UserController_1["default"].authAdmin(req, res, next); });
+router.post(prefix + "/admin/login", function (req, res, next) { return UserController_1["default"].authAdmin(req, res, next); });
+// list users
+router.get(prefix + "/users", passport_1["default"].authenticate('oauth-bearer', { session: false }), function (req, res, next) { return UserController_1["default"].list(req, res, next); });
 // ---- Gateway layer (all request need are authenticated) ---
 router.use(function (req, res, next) {
     var params = req.params;
