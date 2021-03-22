@@ -12,6 +12,8 @@ var admin_service_1 = __importDefault(require("./gateway/admin.service"));
 var file_service_1 = __importDefault(require("./gateway/file.service"));
 var photo_service_1 = __importDefault(require("./gateway/photo.service"));
 var downladPhoto_service_1 = __importDefault(require("./gateway/downladPhoto.service"));
+var video_service_1 = __importDefault(require("./gateway/video.service"));
+var downladVideo_service_1 = __importDefault(require("./gateway/downladVideo.service"));
 var router = express_1.Router();
 var prefix = '/api';
 // --- User layer ---
@@ -29,7 +31,10 @@ router.use(function (req, res, next) {
 router.use(prefix + "/admin", passport_1["default"].authenticate('jwt', { session: false }), admin_service_1["default"]);
 // Storage service file redirect
 router.use(prefix + "/file", passport_1["default"].authenticate('oauth-bearer', { session: false }), file_service_1["default"]);
-// Storage service photo redirect (Carlos redirigelo al photo service)
+// Storage service photo redirect 
 router.use(prefix + "/photo/download", downladPhoto_service_1["default"]);
 router.use(prefix + "/photo", passport_1["default"].authenticate('oauth-bearer', { session: false }), photo_service_1["default"]);
+// Storage service video redirect 
+router.use(prefix + "/video/download", downladVideo_service_1["default"]);
+router.use(prefix + "/video", passport_1["default"].authenticate('oauth-bearer', { session: false }), video_service_1["default"]);
 exports["default"] = router;

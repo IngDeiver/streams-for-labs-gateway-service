@@ -1,6 +1,6 @@
 // Managament File service end points
 import apiAdapter from './adapter'
-import { AxiosResponse, AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import stream from 'stream'
 
 const PHOTO_SERVICE_BASE_URL  = process.env.PHOTO_SERVICE_BASE_URL  || ""
@@ -16,7 +16,7 @@ const STORAGE_API_PREFIX: string = '/api';
 import {
   NextFunction, Request, Response, Router,
 } from 'express';
-import { IRoute, IUser } from '../../interfaces';
+import { IRoute } from '../../interfaces';
 import { HttpException } from '../../exceptions';
 
 class PhotoServiceRouter implements IRoute {

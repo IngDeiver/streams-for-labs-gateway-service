@@ -133,7 +133,7 @@ class FileServiceRouter implements IRoute {
     // Upload file
     this.router.post(`/`, upload.single('file'),
       (req: Request, res: Response, next: NextFunction) => {
-
+        
         let formData = new FormData();
         const file = req.file
         const user: IUser = <IUser>req.user
