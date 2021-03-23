@@ -123,7 +123,6 @@ class UserController {
   public static async authAdmin(req: Request, res: Response, next: NextFunction) {
     try {
       const { username, password } = req.body;
-      console.log("->:",username, password);
       
       const user: IUser | null = await User.findOne({username})
       let verifyPassword = false;
