@@ -62,11 +62,11 @@ var Server = /** @class */ (function () {
     Server.prototype.initializeMiddlewares = function () {
         if (this.env === 'production') {
             this.app.use(morgan_1["default"]('combined', { stream: utils_1.stream }));
-            this.app.use(cors_1["default"]({ origin: "http://127.0.0.1", credentials: true }));
+            this.app.use(cors_1["default"]({ origin: "*", credentials: true }));
         }
         else if (this.env === 'development') {
             this.app.use(morgan_1["default"]('dev', { stream: utils_1.stream }));
-            this.app.use(cors_1["default"]({ origin: true, credentials: true }));
+            this.app.use(cors_1["default"]({ origin: "*", credentials: true }));
         }
         this.app.use(express_1["default"].json());
         this.initializePassport();

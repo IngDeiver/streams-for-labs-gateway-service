@@ -215,13 +215,14 @@ var UserController = /** @class */ (function () {
     };
     UserController.authAdmin = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, user, verifyPassword, token, resp, error_6;
+            var _a, username, password, user, verifyPassword, token, resp, error_6;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 5, , 6]);
-                        _a = req.body, email = _a.email, password = _a.password;
-                        return [4 /*yield*/, models_1.User.findOne({ email: email })];
+                        _a = req.body, username = _a.username, password = _a.password;
+                        console.log("->:", username, password);
+                        return [4 /*yield*/, models_1.User.findOne({ username: username })];
                     case 1:
                         user = _b.sent();
                         verifyPassword = false;
