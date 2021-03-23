@@ -75,10 +75,10 @@ class Server {
   private initializeMiddlewares() {
     if (this.env === 'production') {
       this.app.use(morgan('combined', { stream }));
-      this.app.use(cors({ origin: "http://127.0.0.1", credentials: true }));
+      this.app.use(cors({ origin: false, credentials: true }));
     } else if (this.env === 'development') {
       this.app.use(morgan('dev', { stream }));
-      this.app.use(cors({ origin: true, credentials: true }));
+      this.app.use(cors({ origin: false, credentials: true }));
     }
 
     this.app.use(express.json());
