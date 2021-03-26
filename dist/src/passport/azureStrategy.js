@@ -61,6 +61,7 @@ var AzurebearerStrategy = new passport_azure_ad_1.BearerStrategy(options, functi
                             case 0:
                                 console.log("OFFICE USER: ", user);
                                 if (err) {
+                                    console.log(err);
                                     return [2 /*return*/, done(err)];
                                 }
                                 if (!!user) return [3 /*break*/, 5];
@@ -80,11 +81,13 @@ var AzurebearerStrategy = new passport_azure_ad_1.BearerStrategy(options, functi
                                     .then(function (res) {
                                     return done(null, newUser_1);
                                 })["catch"](function (error) {
+                                    console.log(error);
                                     return done(error, false);
                                 });
                                 return [3 /*break*/, 4];
                             case 3:
                                 error_1 = _a.sent();
+                                console.log(error_1);
                                 return [2 /*return*/, done(error_1, false)];
                             case 4: return [3 /*break*/, 6];
                             case 5: // if exist pass user to next request
