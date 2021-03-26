@@ -21,7 +21,10 @@ const options = {
         console.log("OFFICE USER: ", user);
         
         if (err) {
+          console.log(err);
           return done(err);
+          
+          
         }
 
         // Create if not exist 
@@ -39,9 +42,12 @@ const options = {
               return done(null, newUser)
             })
             .catch((error: AxiosError) => {
+              console.log(error);
               return done(error, false)
             })
           } catch (error) { // If fail the create method
+            console.log(error);
+            
             return done(error, false)
           }
 
