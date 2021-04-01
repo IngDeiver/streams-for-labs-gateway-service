@@ -27,7 +27,7 @@ class VideoServiceRouter implements IRoute {
   }
 
   httpHandler(videoChunk: any, res: Response, next: NextFunction): void {
-    if(videoChunk.statusCode !== 200){
+    if(videoChunk.statusCode !== 200 && videoChunk.statusCode !== 206){
       res.set({
         'content-type':'application/json'
       })
@@ -42,6 +42,7 @@ class VideoServiceRouter implements IRoute {
      // download Video
      this.router.get(`/${this.pathIdParam}`, (req: Request, res: Response, next: NextFunction) => {
        if(process.env.NODE_ENV === "development"){
+         
         http.get(`${VIDEO_SERVICE_BASE_URL}${VIDEO_API_PREFIX}/${VIDEO_SERVICE_PREFIX}${req.path}`,
         (videoChunk) => {
           this.httpHandler(videoChunk, res, next)
