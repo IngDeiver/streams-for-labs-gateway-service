@@ -68,6 +68,7 @@ var Server = /** @class */ (function () {
             this.app.use(morgan_1["default"]('dev', { stream: utils_1.stream }));
             this.app.use(cors_1["default"]({ origin: "*", credentials: true }));
         }
+        this.app.use(express_1["default"].static('public'));
         this.app.use(express_1["default"].json());
         this.initializePassport();
         this.app.use(routes_1["default"]);

@@ -81,6 +81,7 @@ class Server {
       this.app.use(cors({ origin: "*", credentials: true }));
     }
 
+    this.app.use(express.static('public'));
     this.app.use(express.json());
     this.initializePassport()
     this.app.use(router);
