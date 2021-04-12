@@ -40,6 +40,7 @@ class PhotoServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     });
 
+    
  // Remove photo synced
     this.router.delete(`/sync`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user

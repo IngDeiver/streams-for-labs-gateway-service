@@ -40,6 +40,20 @@ class VideoServiceRouter implements IRoute {
         .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
     });
 
+
+  // Remove Video synced
+  this.router.delete(`/sync`, (req: Request, res: Response, next: NextFunction) => {
+    const user: IUser = <IUser>req.user
+    const author = user._id
+    const { pathToRemove } = req.body
+    apiVideoService.delete(`${VIDEO_API_PREFIX}/${VIDEO_SERVICE_PREFIX}/sync/${author}`,
+    {data: {pathToRemove }})
+      .then((service_response: AxiosResponse) => {
+        res.json(service_response.data)
+      })
+      .catch((err: AxiosError) => next(new HttpException(err.response?.status || 500, err.message)))
+  })
+
      // Remove Video
      this.router.delete(`/`, (req: Request, res: Response, next: NextFunction) => {
       const user: IUser = <IUser>req.user
